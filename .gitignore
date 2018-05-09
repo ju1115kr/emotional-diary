@@ -43,3 +43,4 @@ server/app/data-test.sqlite
 server/nohup*
 server/migrations/*
 server/file/*
+!server/file/blank
