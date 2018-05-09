@@ -47,9 +47,9 @@ def labeling_face(path):
                        'LIKELY', 'VERY_LIKELY')
 
     json_result = {
-        'anger: {}'.format(likelihood_name[face.anger_likelihood]),
-        'joy: {}'.format(likelihood_name[face.joy_likelihood]),
-        'surprise: {}'.format(likelihood_name[face.surprise_likelihood]),
-        'sorrow: {}'.format(likelihood_name[face.sorrow_likelihood]),
+        'anger': likelihood_name[face.anger_likelihood],
+        'joy': likelihood_name[face.joy_likelihood],
+        'surprise': likelihood_name[face.surprise_likelihood],
+        'sorrow': likelihood_name[face.sorrow_likelihood],
     }
     return json_result

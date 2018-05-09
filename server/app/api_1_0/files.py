@@ -52,6 +52,6 @@ def uploaded_file(filelocate):
     return send_from_directory(UPLOAD_FOLDER, filelocate)
 
 
-@api.route('file/<filelocate>/emotion', methods=['GET'])
+@api.route('/emotion/<filelocate>', methods=['GET'])
 def get_emotion(filelocate):
-    return jsonify(labeling_face(os.path.join(UPLOAD_FOLDER, filelocate))
+    return jsonify(labeling_face(os.path.join(UPLOAD_FOLDER, filelocate)))
