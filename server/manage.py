@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 from app import create_app, socketio
-from flask.ext.script import Manager, Shell, Command
+from flask_script import Manager, Shell, Command
 
 app = create_app('default')
 manager = Manager(app)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask
-from flask.ext.cors import CORS
+from flask_cors import CORS
 
 from .config import config
 
