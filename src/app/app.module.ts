@@ -18,6 +18,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { DetailDiaryPageModule } from '../pages/detail-diary/detail-diary.module';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -28,6 +30,7 @@ import { DetailDiaryPageModule } from '../pages/detail-diary/detail-diary.module
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
     DetailDiaryPageModule
   ],

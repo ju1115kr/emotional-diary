@@ -8,8 +8,8 @@ import 'rxjs/add/operator/map';
 export class ServerProvider {
   serverAddr: string = '';
 
-  constructor(public http: HttpClient
-    , private platform: Platform) {
+  constructor(public http: HttpClient,
+    private platform: Platform) {
     console.log('Hello ServerProvider Provider');
   }
 
@@ -30,13 +30,13 @@ export class ServerProvider {
   post(url, body) {
     return new Promise((resolve, reject) => {
       let serverUrl;
-      
+
       if (this.platform.is('cordova')) serverUrl = this.serverAddr + url;
       else serverUrl = "https://meonzzi.newslabfellows.com:9009/api/v1.0/" + url;
 
-      let headers = new HttpHeaders({ 'Content-Type': 'application/json'});
+      let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-      this.http.post(serverUrl, body, {headers:headers})
+      this.http.post(serverUrl, body, { headers: headers })
         .subscribe((res: any) => {
           resolve(res);
         }, (err) => { reject(err) });
