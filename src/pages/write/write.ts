@@ -14,7 +14,7 @@ export class WritePage {
   base64Image: any;
   imageURI: any;
   imageFileName: any;
-  serverAddr: string = "https://meonzzi.newslabfellows.com:9009/api/v1.0";
+  serverIP: string = "http://meonzzi.newslabfellows.com:9009";
   nowDate: string;
 
   constructor(public navCtrl: NavController,
@@ -24,7 +24,6 @@ export class WritePage {
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     private serverProvider: ServerProvider) { }
-
 
   takePhoto() {
     const options: CameraOptions = {
@@ -61,14 +60,16 @@ export class WritePage {
         mimeType: "image/jpeg",
         headers: {}
       }
-      let serverAPI = "/file";
+      let serverAPI = "/api/v1.0/file";
 
-      fileTransfer.upload(imageData, this.serverAddr + serverAPI, options)
+      fileTransfer.upload(imageData, this.serverIP + serverAPI, options)
         .then((data) => {
           console.log(data + " Uploaded Successfully");
-          this.imageURI = JSON.parse(data.response);
+          console.log(data);
+          this.imageURI = data.response;
           loader.dismiss();
           this.presentToast("Image uploaded successfully");
+          this.downloadFile();
           resolve();
         }, (err) => {
           console.log(err);
@@ -83,7 +84,7 @@ export class WritePage {
   downloadFile() {
     const fileTransfer: FileTransferObject = this.transfer.create();
     //TODO: imageURL 정확히 알아내기
-    fileTransfer.download(this.imageURI, this.file.dataDirectory)
+    fileTransfer.download(this.serverIP + this.imageURI, this.file.dataDirectory)
       .then((data) => {
         console.log(data);
         this.presentToast("Image download successful");
@@ -96,16 +97,16 @@ export class WritePage {
 
   fetchEmotion() {
     this.serverProvider
-    .get(this.imageURI)
-    .then((res: any) => {
-      //TODO: Provider로 emotion JSON data 전달
-      return new Promise((res, rej) => {
+      .get(this.imageURI)
+      .then((res: any) => {
+        //TODO: Provider로 emotion JSON data 전달
+        return new Promise((res, rej) => {
 
-      })
-      
-    }, (err) => {
-      console.log(err)
-    });
+        })
+
+      }, (err) => {
+        console.log(err)
+      });
   }
 
   presentToast(msg) {

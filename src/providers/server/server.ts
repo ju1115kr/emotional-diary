@@ -6,11 +6,11 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ServerProvider {
-  serverAddr: string = '';
+  serverAddr: string = 'http://meonzzi.newslabfellows.com:9009/api/v1.0';
 
   constructor(public http: HttpClient,
     private platform: Platform) {
-    console.log('Hello ServerProvider Provider');
+    console.log('Hello ServerProvider Provider');   
   }
 
   get(url) {
@@ -18,7 +18,7 @@ export class ServerProvider {
       let serverUrl;
 
       if (this.platform.is('cordova')) serverUrl = this.serverAddr + url;
-      else serverUrl = "https://meonzzi.newslabfellows.com:9009/api/v1.0/" + url;
+      else serverUrl = "http://meonzzi.newslabfellows.com:9009/api/v1.0/" + url;
 
       this.http.get(serverUrl)
         .subscribe((res: any) => {
@@ -32,7 +32,7 @@ export class ServerProvider {
       let serverUrl;
 
       if (this.platform.is('cordova')) serverUrl = this.serverAddr + url;
-      else serverUrl = "https://meonzzi.newslabfellows.com:9009/api/v1.0/" + url;
+      else serverUrl = "http://meonzzi.newslabfellows.com:9009/api/v1.0/" + url;
 
       let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
