@@ -41,8 +41,8 @@ def post_file():
     with open(os.path.join(UPLOAD_FOLDER, filelocate), 'rb') as image:
         faces = detect_face(image, max_results=4)
         image.seek(0)
-        highlight_faces(image, faces, outputFilename(
-            os.path.join(UPLOAD_FOLDER, filelocate)))
+        highlight_faces(image, faces, outputFilename(os.path.join(UPLOAD_FOLDER, filelocate)))
+        os.remove(os.path.join(UPLOAD_FOLDER, filelocate))
         return url_for('api.uploaded_file', filelocate=outputFilename(filelocate))
     return
 
