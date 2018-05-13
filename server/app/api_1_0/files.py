@@ -13,14 +13,14 @@ ALLOWED_PIC_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp'])
 
 def allowed_picture(filename):
     return '.' in filename and\
-            filename.rsplit('.', 1)[1] in ALLOWED_PIC_EXTENSIONS
+        filename.rsplit('.', 1)[1] in ALLOWED_PIC_EXTENSIONS
 
 
 def addTimestamp(filename):
     now = time.localtime()
     timestamp = "_%04d%02d%02d_%02d%02d%02d" %\
-            (now.tm_year, now.tm_mon, now.tm_mday,
-                    now.tm_hour, now.tm_min, now.tm_sec)
+        (now.tm_year, now.tm_mon, now.tm_mday,
+         now.tm_hour, now.tm_min, now.tm_sec)
     return filename.rsplit('.', 1)[0] + timestamp + "." + filename.rsplit('.', 1)[1]
 
 

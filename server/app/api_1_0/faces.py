@@ -24,7 +24,7 @@ def highlight_faces(image, faces, output_filename):
 
     for face in faces:
         box = [(vertex.x, vertex.y)
-                for vertex in face.bounding_poly.vertices]
+               for vertex in face.bounding_poly.vertices]
         draw.line(box + [box[0]], width=5, fill='#00ff00')
 
         for mark in face.landmarks:
@@ -44,12 +44,12 @@ def labeling_face(path):
     face = faces[0]
 
     likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE',
-            'LIKELY', 'VERY_LIKELY')
+                       'LIKELY', 'VERY_LIKELY')
 
     json_result = {
-            'anger': likelihood_name[face.anger_likelihood],
-            'joy': likelihood_name[face.joy_likelihood],
-            'surprise': likelihood_name[face.surprise_likelihood],
-            'sorrow': likelihood_name[face.sorrow_likelihood],
-            }
+        'anger': likelihood_name[face.anger_likelihood],
+        'joy': likelihood_name[face.joy_likelihood],
+        'surprise': likelihood_name[face.surprise_likelihood],
+        'sorrow': likelihood_name[face.sorrow_likelihood],
+    }
     return json_result
