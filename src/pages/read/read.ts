@@ -37,9 +37,8 @@ export class ReadPage {
           for (let i = 0; i < res.lenght; i++) {
             this.diary.push(res[i]);
           }
-        })
-        .catch(e => console.log(e))
-    }).catch(e => console.log(e))
+        }, (err) => { console.log(err); })
+    }, (err) => { console.log(err); })
   }
 
   getDetailDiary(id) {

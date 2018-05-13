@@ -44,8 +44,9 @@ export class HomePage {
       db.executeSql('create table if not exists diary(id integer primary key, \
         filelocate text, manualValue int, appHappiness text, appSorrow text, appAnger text, appSurprise text, \
         context text, datetime datetime', {})
-        .then(res => console.log('Executed SQL: ' + res))
-        .catch(e => console.log(e));
+        .then(res => {
+          console.log('Executed SQL: ' + res)
+        }, (err) => { console.log(err); })
 
       db.executeSql('select * from diary order by id desc limit 1', {})
         .then(res => {
@@ -54,17 +55,14 @@ export class HomePage {
           this.recent.context = res.context;
           this.recent.slicedcontext = res.context.substring(0, 16);
           this.recent.manualValue = res.manualValue;
-        })
-        .catch(e => console.log(e));
-
-    }).catch(e => console.log(e))
+        }, (err) => { console.log(err); })
+    }, (err) => { console.log(err); })
   }
 
   shareFacebook() {
     this.socialSharing.shareViaFacebook(this.recent.context, this.recent.filelocate, '')
-      .then(() => { })
-      .catch((e) => {
-        console.log(e);
-      });
+      .then(() => {
+
+      }, (err) => { console.log(err); })
   }
 }
