@@ -64,7 +64,6 @@ export class WritePage {
 
       fileTransfer.upload(imageData, this.serverIP + serverAPI, options)
         .then((data) => {
-          console.log(data + " Uploaded Successfully");
           console.log(data);
           this.imageURI = data.response;
           loader.dismiss();
@@ -84,11 +83,14 @@ export class WritePage {
   downloadFile() {
     const fileTransfer: FileTransferObject = this.transfer.create();
     //TODO: imageURL 정확히 알아내기
-    fileTransfer.download(this.serverIP + this.imageURI, this.file.dataDirectory)
-      .then((data) => {
-        console.log(data);
+    fileTransfer.download(this.serverIP + this.imageURI, this.file.dataDirectory + this.nowDate + '.jpg')
+      .then((entry) => {
+        console.log(entry);
+        console.log(entry.toURL());
+        
         this.presentToast("Image download successful");
-        this.fetchEmotion();
+        this.imageFileName = entry.toURL();
+        // this.fetchEmotion();
       }, (err) => {
         console.log(err);
         this.presentToast(err);
