@@ -4,7 +4,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ServerProvider } from '../../providers/server/server';
-import { HttpClient } from '@angular/common/http';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 @Component({
   selector: 'page-about',
@@ -17,8 +17,10 @@ export class WritePage {
   imageFileName: any;
   serverIP: string = "http://meonzzi.newslabfellows.com:9009";
   nowDate: string;
-  emotion = [];
-
+  rangeValue: number = 5;
+  emotion: any = { happiness: "", sorrow: "", anger: "", surprise: "" };
+  placeholder: string = "오늘의 감정을 적어주세요";
+  context: string;
 
   constructor(public navCtrl: NavController,
     private transfer: FileTransfer,
@@ -26,7 +28,8 @@ export class WritePage {
     private camera: Camera,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    private serverProvider: ServerProvider) { }
+    private serverProvider: ServerProvider,
+    private sqlite: SQLite) { }
 
   takePhoto() {
     const options: CameraOptions = {
@@ -96,20 +99,40 @@ export class WritePage {
   }
 
   fetchEmotion() {
-    let emotionURL = '/api/v1.0/emotion' + this.imageURI.substring(14,);
-    
+    let emotionURL = '/api/v1.0/emotion' + this.imageURI.substring(14, );
+
     this.serverProvider
       .get(emotionURL)
       .then((res: any) => {
         console.log(res);
-        this.emotion.push(res.anger);
-        this.emotion.push(res.sorrow);
-        this.emotion.push(res.surprise);
-        this.emotion.push(res.happiness);
+        this.emotion.happiness = res.happiness;
+        this.emotion.sorrow = res.sorrow;
+        this.emotion.anger = res.anger;
+        this.emotion.surprise = res.surprise;
       }, (err) => {
         console.log(err)
       });
 
+  }
+
+  saveDiary() {
+    this.sqlite.create({
+      name: 'emotionDiary.db',
+      location: 'default'
+    }).then((db: SQLiteObject) => {
+      db.executeSql('insert into diary values(null, ?, ?, ?, ?, ?, ?, ?, ?',
+        [this.imageFileName, this.rangeValue, this.emotion.happiness, this.emotion.sorrow, this.emotion.anger, this.emotion.surprise, this.context, this.nowDate])
+        .then(res => {
+          console.log(res);
+          this.presentToast("Diary saved successful");
+        }, (err) => {
+          console.log(err);
+          this.presentToast(err);
+        })
+    }, (err) => {
+      console.log(err);
+      this.presentToast(err); 2
+    })
   }
 
   presentToast(msg) {

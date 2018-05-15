@@ -15,32 +15,33 @@
         </button>
       </ion-item>
 
-      <ion-item>
-        <img [src]="imageFileName" *ngIf="imageFileName" alt=""/>
+      <ion-item *ngIf="imageFileName">
+        <img [src]="imageFileName" *ngIf="imageFileName" alt="" />
       </ion-item>
 
       <ion-item>
-        <ion-range min="0" max="10" pin="true">
-          <ion-icon range-left small name="sad"></ion-icon>
+        <ion-range min="0" max="10" pin="true" [(ngModel)]="rangeValue" name="rangeValue">
+          <ion-icon range-left small name="happy"></ion-icon>
           <ion-icon range-right name="happy"></ion-icon>
         </ion-range>
       </ion-item>
 
       <ion-item>
-        <ion-label>
-          <button ion-item *ngIf="emotion[0]">화남: {{emotion[0]}}</button>
-          <button ion-item *ngIf="emotion[1]">슬픔: {{emotion[1]}}</button>
-          <button ion-item *ngIf="emotion[2]">놀람: {{emotion[2]}}</button>
-          <button ion-item *ngIf="emotion[3]">행복: {{emotion[3]}}</button>
-        </ion-label>
+        <ion-list no-lines>
+            <ion-list-header>우리가 판단한 당신의 감정은?</ion-list-header>
+            <button ion-item *ngIf="emotion">행복: {{emotion.happiness}}</button>
+            <button ion-item *ngIf="emotion">슬픔: {{emotion.sorrow}}</button>
+            <button ion-item *ngIf="emotion">화남: {{emotion.anger}}</button>
+            <button ion-item *ngIf="emotion">놀람: {{emotion.surprise}}</button>
+        </ion-list>
       </ion-item>
 
       <ion-item>
-        <ion-textarea></ion-textarea>
+        <ion-textarea [placeholder]="placeholder"></ion-textarea>
       </ion-item>
 
       <ion-item>
-        <button ion-button type="submit">저장</button>
+        <button ion-button type="submit" (click)="saveDiary()">저장</button>
       </ion-item>
     </ion-list>
   </form>
