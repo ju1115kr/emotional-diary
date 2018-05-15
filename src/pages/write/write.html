@@ -28,7 +28,10 @@
 
       <ion-item>
         <ion-label>
-
+          <button ion-item *ngIf="emotion[0]">화남: {{emotion[0]}}</button>
+          <button ion-item *ngIf="emotion[1]">슬픔: {{emotion[1]}}</button>
+          <button ion-item *ngIf="emotion[2]">놀람: {{emotion[2]}}</button>
+          <button ion-item *ngIf="emotion[3]">행복: {{emotion[3]}}</button>
         </ion-label>
       </ion-item>
 

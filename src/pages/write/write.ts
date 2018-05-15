@@ -4,6 +4,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ServerProvider } from '../../providers/server/server';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'page-about',
@@ -16,6 +17,8 @@ export class WritePage {
   imageFileName: any;
   serverIP: string = "http://meonzzi.newslabfellows.com:9009";
   nowDate: string;
+  emotion = [];
+
 
   constructor(public navCtrl: NavController,
     private transfer: FileTransfer,
@@ -30,13 +33,12 @@ export class WritePage {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
       sourceType: this.camera.PictureSourceType.CAMERA,
-      encodingType: this.camera.EncodingType.JPEG,
+      encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE
     }
 
     this.camera.getPicture(options).then((imageData) => {
       this.base64Image = "data:image/jpeg;base64," + imageData;
-      // this.imageURI = imageData;
       this.nowDate = Date.now().toString();
       this.uploadFile(imageData);
     }, (err) => {
@@ -55,10 +57,9 @@ export class WritePage {
 
       let options: FileUploadOptions = {
         fileKey: 'file',
-        fileName: 'picture.jpg',
+        fileName: 'picture.png',
         chunkedMode: false,
-        mimeType: "image/jpeg",
-        headers: {}
+        mimeType: "image/png",
       }
       let serverAPI = "/api/v1.0/file";
 
@@ -85,12 +86,9 @@ export class WritePage {
     //TODO: imageURL 정확히 알아내기
     fileTransfer.download(this.serverIP + this.imageURI, this.file.dataDirectory + this.nowDate + '.jpg')
       .then((entry) => {
-        console.log(entry);
-        console.log(entry.toURL());
-        
         this.presentToast("Image download successful");
         this.imageFileName = entry.toURL();
-        // this.fetchEmotion();
+        this.fetchEmotion();
       }, (err) => {
         console.log(err);
         this.presentToast(err);
@@ -98,17 +96,20 @@ export class WritePage {
   }
 
   fetchEmotion() {
+    let emotionURL = '/api/v1.0/emotion' + this.imageURI.substring(14,);
+    
     this.serverProvider
-      .get(this.imageURI)
+      .get(emotionURL)
       .then((res: any) => {
-        //TODO: Provider로 emotion JSON data 전달
-        return new Promise((res, rej) => {
-
-        })
-
+        console.log(res);
+        this.emotion.push(res.anger);
+        this.emotion.push(res.sorrow);
+        this.emotion.push(res.surprise);
+        this.emotion.push(res.happiness);
       }, (err) => {
         console.log(err)
       });
+
   }
 
   presentToast(msg) {
