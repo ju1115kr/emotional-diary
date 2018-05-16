@@ -41,8 +41,8 @@ def post_file():
     with open(os.path.join(UPLOAD_FOLDER, filelocate), 'rb') as image:
         faces = detect_face(image, max_results=4)
         image.seek(0)
-        highlight_faces(image, faces, outputFilename(
-            os.path.join(UPLOAD_FOLDER, filelocate)))
+        highlight_faces(image, faces, outputFilename(os.path.join(UPLOAD_FOLDER, filelocate)))
+        os.remove(os.path.join(UPLOAD_FOLDER, filelocate))
         return url_for('api.uploaded_file', filelocate=outputFilename(filelocate))
     return
 
@@ -54,4 +54,9 @@ def uploaded_file(filelocate):
 
 @api.route('/emotion/<filelocate>', methods=['GET'])
 def get_emotion(filelocate):
-    return jsonify(labeling_face(os.path.join(UPLOAD_FOLDER, filelocate)))
+    emotion_result = labeling_face(os.path.join(UPLOAD_FOLDER, filelocate))
+
+    if(emotion_result is None):
+        return bad_requeset('File Request in invaild')
+
+    return jsonify(emotion_result)
