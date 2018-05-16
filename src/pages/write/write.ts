@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController } from 'ionic-angular';
+import { NavController, LoadingController, ToastController, normalizeURL } from 'ionic-angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -87,7 +87,7 @@ export class WritePage {
   downloadFile() {
     const fileTransfer: FileTransferObject = this.transfer.create();
     //TODO: imageURL 정확히 알아내기
-    fileTransfer.download(this.serverIP + this.imageURI, this.file.dataDirectory + this.nowDate + '.jpg')
+    fileTransfer.download(this.serverIP + this.imageURI, normalizeURL(this.file.dataDirectory + this.nowDate + '.jpg'), true)
       .then((entry) => {
         this.presentToast("Image download successful");
         this.imageFileName = entry.toURL();
