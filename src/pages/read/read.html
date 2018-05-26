@@ -8,13 +8,11 @@
 
 <ion-content>
   <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
-    <ion-item>
-      <button ion-button (click) = "getDetailDiary()">상세보기</button>
-    </ion-item>
+    <ion-item-sliding *ngFor="let diary of diaries; let i = index" (click)="getDetailDiary(diary.id)">
+      <p>
+        <span>{{diary.id}}</span>
+      </p>
+      <button ion-button (click)="getDetailDiary(diary.id)">상세보기</button>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

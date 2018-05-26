@@ -12,9 +12,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 })
 export class WritePage {
 
-  base64Image: any;
-  imageURI: any;
-  imageFileName: any;
+  imageURI: string;
+  imageFileName: string;
   serverIP: string = "http://meonzzi.newslabfellows.com:9009";
   nowDate: string;
   rangeValue: number = 5;
@@ -41,7 +40,6 @@ export class WritePage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      this.base64Image = "data:image/jpeg;base64," + imageData;
       this.nowDate = Date.now().toString();
       this.uploadFile(imageData);
     }, (err) => {
@@ -86,7 +84,7 @@ export class WritePage {
 
   downloadFile() {
     const fileTransfer: FileTransferObject = this.transfer.create();
-    //TODO: imageURL 정확히 알아내기
+
     fileTransfer.download(this.serverIP + this.imageURI, normalizeURL(this.file.dataDirectory + this.nowDate + '.jpg'), true)
       .then((entry) => {
         this.presentToast("Image download successful");
@@ -121,7 +119,10 @@ export class WritePage {
       location: 'default'
     }).then((db: SQLiteObject) => {
       db.executeSql('insert into diary values(null, ?, ?, ?, ?, ?, ?, ?, ?',
-        [this.imageFileName, this.rangeValue, this.emotion.happiness, this.emotion.sorrow, this.emotion.anger, this.emotion.surprise, this.context, this.nowDate])
+        [this.imageFileName, this.rangeValue,
+        this.emotion.happiness, this.emotion.sorrow,
+        this.emotion.anger, this.emotion.surprise,
+        this.context, this.nowDate])
         .then(res => {
           console.log(res);
           this.presentToast("Diary saved successful");
@@ -131,7 +132,7 @@ export class WritePage {
         })
     }, (err) => {
       console.log(err);
-      this.presentToast(err); 2
+      this.presentToast(err);
     })
   }
 
