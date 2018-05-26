@@ -41,14 +41,15 @@ def labeling_face(path):
     image = types.Image(content=content)
     response = client.face_detection(image=image)
     faces = response.face_annotations
-    face = faces[0]
+    if(faces[0]):
+        face = faces[0]
+        likelihood_name = ('UNKNOWN', '0%', '25%', '50%', '75%', '100%')
 
-    likelihood_name = ('UNKNOWN', '0%', '25%', '50%', '75%', '100%')
-
-    json_result = {
-        'anger': likelihood_name[face.anger_likelihood],
-        'joy': likelihood_name[face.joy_likelihood],
-        'surprise': likelihood_name[face.surprise_likelihood],
-        'sorrow': likelihood_name[face.sorrow_likelihood],
-    }
-    return json_result
+        json_result = {
+            'anger': likelihood_name[face.anger_likelihood],
+            'joy': likelihood_name[face.joy_likelihood],
+            'surprise': likelihood_name[face.surprise_likelihood],
+            'sorrow': likelihood_name[face.sorrow_likelihood],
+        }
+        return json_result
+    return false

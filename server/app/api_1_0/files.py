@@ -56,7 +56,7 @@ def uploaded_file(filelocate):
 def get_emotion(filelocate):
     emotion_result = labeling_face(os.path.join(UPLOAD_FOLDER, filelocate))
 
-    if(emotion_result is None):
+    if(!emotion_result):
         return bad_requeset('File Request in invaild')
 
     return jsonify(emotion_result)
