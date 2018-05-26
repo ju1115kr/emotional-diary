@@ -85,9 +85,13 @@ export class WritePage {
   downloadFile() {
     const fileTransfer: FileTransferObject = this.transfer.create();
 
-    fileTransfer.download(this.serverIP + this.imageURI, normalizeURL(this.file.dataDirectory + this.nowDate + '.jpg'), true)
+    fileTransfer.download(this.serverIP + this.imageURI, this.file.dataDirectory + this.nowDate + '.jpg', true)
       .then((entry) => {
         this.presentToast("Image download successful");
+        console.log(entry);
+        console.log(normalizeURL(entry.toURL()));
+        
+        
         this.imageFileName = entry.toURL();
         this.fetchEmotion();
       }, (err) => {
@@ -118,7 +122,7 @@ export class WritePage {
       name: 'emotionDiary.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('insert into diary values(null, ?, ?, ?, ?, ?, ?, ?, ?',
+      db.executeSql('insert into diary values(null, ?, ?, ?, ?, ?, ?, ?, ?)',
         [this.imageFileName, this.rangeValue,
         this.emotion.happiness, this.emotion.sorrow,
         this.emotion.anger, this.emotion.surprise,
