@@ -17,10 +17,12 @@ export class HomePage {
   }
   // emotion: any = { happiness: "", sorrow: "", anger: "", surprise: "" };
   average: number;
+  public storage: any;
 
   constructor(public navCtrl: NavController,
     private sqlite: SQLite,
     private socialSharing: SocialSharing) { }
+
 
   ionViewDidLoad() {
     this.getData();
@@ -35,15 +37,14 @@ export class HomePage {
       name: 'emotionDiary.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-
-      db.executeSql('create table if not exists diary(id integer primary key, \
+      db.executeSql('CREATE TABLE IF NOT EXISTS diary(id integer primary key, \
         filelocate text, manualValue int, happiness text, sorrow text, anger text, surprise text, \
-        context text, datetime datetime', {})
+        context text, datetime datetime)', {})
         .then(res => {
           console.log('Executed SQL: ' + res)
         }, (err) => { console.log(err); })
 
-      db.executeSql('select *, avg(happniess) as happniess, avg(sorrow) as sorrow from diary order by id desc limit 1', {})
+      db.executeSql('select *, avg(happiness) as happiness, avg(sorrow) as sorrow from diary order by id desc limit 1', {})
         .then(res => {
           console.log(res);
           this.recent.filelocate = res.filelocate;
@@ -51,13 +52,13 @@ export class HomePage {
           this.recent.slicedcontext = res.context.substring(0, 16);
           this.recent.manualValue = res.manualValue;
 
-          this.average = parseInt(res.rows.item(0).happniess) / parseInt(res.rows.item(0).sorrow) * 100;
+          this.average = parseInt(res.rows.item(0).happiness) / parseInt(res.rows.item(0).sorrow) * 100;
           this.fillCircle(this.average, document.getElementById('HomeCircle'));
         }, (err) => {
-          this.average = 0;
+          this.average = 50;
+          this.fillCircle(this.average, document.getElementById('HomeCircle'));
           console.log(err);
         })
-
     }, (err) => { console.log(err); })
   }
 
