@@ -20,9 +20,9 @@ export class ReadPage {
     this.getAllDiary();
   }
 
-  ionViewWillEnter() {
-    this.getAllDiary();
-  }
+  // ionViewWillEnter() {
+  //   this.getAllDiary();
+  // }
 
   getAllDiary() {
     this.sqlite.create({
@@ -31,9 +31,11 @@ export class ReadPage {
     }).then((db: SQLiteObject) => {
       db.executeSql('select * from diary order by id desc', {})
         .then(res => {
-          console.log(res);
+          console.log(res.rows.length);
+          console.log(res.rows);
+          
           this.diaries = [];
-          for (let i = 0; i < res.rows.lenght; i++) {
+          for (let i = 0; i < res.rows.length; i++) {
             this.diaries.push({
               id: res.rows.item(i).id,
               filelocate: res.rows.item(i).filelocate, manualValue: res.rows.item(i).manualValue,
@@ -42,6 +44,8 @@ export class ReadPage {
               context: res.rows.item(i).context, datetime: res.rows.item(i).datetime
             });
           }
+          console.log(this.diaries);
+          
         }, (err) => { console.log(err); })
     }, (err) => { console.log(err); })
   }
