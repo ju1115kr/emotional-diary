@@ -43,7 +43,7 @@ def labeling_face(path):
     faces = response.face_annotations
     if len(faces) != 0:
         face = faces[0]
-        likelihood_name = ('UNKNOWN', '0%', '25%', '50%', '75%', '100%')
+        likelihood_name = ('0%', '0%', '25%', '50%', '75%', '100%')
 
         json_result = {
             'anger': likelihood_name[face.anger_likelihood],
