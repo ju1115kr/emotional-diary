@@ -88,10 +88,6 @@ export class WritePage {
     fileTransfer.download(this.serverIP + this.imageURI, this.file.dataDirectory + this.nowDate + '.jpg', true)
       .then((entry) => {
         this.presentToast("Image download successful");
-        console.log(entry);
-        console.log(normalizeURL(entry.toURL()));
-        
-        
         this.imageFileName = entry.toURL();
         this.fetchEmotion();
       }, (err) => {
@@ -107,12 +103,18 @@ export class WritePage {
       .get(emotionURL)
       .then((res: any) => {
         console.log(res);
-        this.emotion.happiness = res.happiness;
-        this.emotion.sorrow = res.sorrow;
-        this.emotion.anger = res.anger;
-        this.emotion.surprise = res.surprise;
+        this.emotion.happiness = res.happiness.replace("%", "");
+        this.emotion.sorrow = res.sorrow.replace("%", "");
+        this.emotion.anger = res.anger.replace("%", "");
+        this.emotion.surprise = res.surprise.replace("%", "");
       }, (err) => {
-        console.log(err)
+        console.log(err);
+        if (err.status == "400") {
+          this.emotion.happiness = "0";
+          this.emotion.sorrow = "0";
+          this.emotion.anger = "0";
+          this.emotion.surprise = "0";
+        }
       });
 
   }

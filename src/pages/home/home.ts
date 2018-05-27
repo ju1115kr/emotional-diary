@@ -17,7 +17,6 @@ export class HomePage {
   }
   // emotion: any = { happiness: "", sorrow: "", anger: "", surprise: "" };
   average: number;
-  public storage: any;
 
   constructor(public navCtrl: NavController,
     private sqlite: SQLite,
@@ -28,9 +27,9 @@ export class HomePage {
     this.getData();
   }
 
-  ionViewWillEnter() {
-    this.getData();
-  }
+  // ionViewWillEnter() {
+  //   this.getData();
+  // }
 
   getData() {
     this.sqlite.create({
@@ -38,7 +37,7 @@ export class HomePage {
       location: 'default'
     }).then((db: SQLiteObject) => {
       db.executeSql('CREATE TABLE IF NOT EXISTS diary(id integer primary key, \
-        filelocate text, manualValue int, happiness text, sorrow text, anger text, surprise text, \
+        filelocate text, manualValue integer, happiness integer, sorrow integer, anger integer, surprise integer, \
         context text, datetime datetime)', {})
         .then(res => {
           console.log('Executed SQL: ' + res)

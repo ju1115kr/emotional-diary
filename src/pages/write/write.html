@@ -26,13 +26,13 @@
         </ion-range>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="emotion.happiness">
         <ion-list no-lines>
             <ion-list-header>우리가 판단한 당신의 감정은?</ion-list-header>
-            <button ion-item *ngIf="emotion">행복: {{emotion.happiness}}</button>
-            <button ion-item *ngIf="emotion">슬픔: {{emotion.sorrow}}</button>
-            <button ion-item *ngIf="emotion">화남: {{emotion.anger}}</button>
-            <button ion-item *ngIf="emotion">놀람: {{emotion.surprise}}</button>
+            <button ion-item>행복: {{emotion.happiness}}%</button>
+            <button ion-item>슬픔: {{emotion.sorrow}}%</button>
+            <button ion-item>화남: {{emotion.anger}}%</button>
+            <button ion-item>놀람: {{emotion.surprise}}%</button>
         </ion-list>
       </ion-item>
 
