@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { DetailDiaryPage } from '../detail-diary/detail-diary';
 import { SocialSharing } from '@ionic-native/social-sharing';
 
 @Component({
@@ -46,6 +47,7 @@ export class HomePage {
       db.executeSql('select *, avg(happiness) as happiness, avg(sorrow) as sorrow from diary order by id desc limit 1', {})
         .then(res => {
           console.log(res);
+          this.recent.id = res.id;
           this.recent.filelocate = res.filelocate;
           this.recent.context = res.context;
           this.recent.slicedcontext = res.context.substring(0, 16);
@@ -79,6 +81,12 @@ export class HomePage {
     context.strokeStyle = "#B0A9B5";
 
     context.stroke();
+  }
+
+  getDetailDiary(id) {
+    this.navCtrl.push(DetailDiaryPage, {
+      id: id
+    })
   }
 
   shareFacebook() {
