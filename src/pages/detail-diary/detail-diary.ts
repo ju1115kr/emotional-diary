@@ -32,14 +32,15 @@ export class DetailDiaryPage {
     }).then((db: SQLiteObject) => {
       db.executeSql('select * from diary where id=?', [id])
         .then(res => {
-          if (res.rows.lenght > 0) {
+          if (res.rows.lenght != 0) {
             this.imageFileName = res.rows.item(0).filelocate;
             this.rangeValue = res.rows.item(0).manualValue;
-            this.emotion.happiness = res.rows.itme(0).happiness;
+            this.emotion.happiness = res.rows.item(0).happiness;
             this.emotion.sorrow = res.rows.item(0).sorrow;
             this.emotion.surprise = res.rows.item(0).surprise;
             this.emotion.anger = res.rows.item(0).anger;
-            this.datetime = res.rows.item(0).datetime;
+            this.context = res.rows.item(0).context;
+            this.datetime = this.formatDate(res.rows.item(0).datetime);
           }
         }, (err) => {
           console.log(err);
@@ -48,4 +49,21 @@ export class DetailDiaryPage {
       console.log(err);
     })
   }
+
+  formatDate(date) {
+    let d = new Date(date);
+    let AMPM = " AM";
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    let year = d.getFullYear();
+    let hour = d.getHours();
+    let minute = d.getMinutes();
+
+    if (hour >= 13) { hour -= 12; AMPM = " PM"; }
+
+    if (month.length < 2) month = '0' + month;
+
+    return [year, month, day].join('.') + " " + [hour, minute].join(':') + AMPM;
+  }
+
 }

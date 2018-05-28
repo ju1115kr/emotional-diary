@@ -23,16 +23,18 @@
 
       <ion-item>
         <ion-list no-lines>
-            <ion-list-header>우리가 판단한 당신의 감정은?</ion-list-header>
-            <button ion-item *ngIf="emotion">행복: {{emotion.happiness}}</button>
-            <button ion-item *ngIf="emotion">슬픔: {{emotion.sorrow}}</button>
-            <button ion-item *ngIf="emotion">화남: {{emotion.anger}}</button>
-            <button ion-item *ngIf="emotion">놀람: {{emotion.surprise}}</button>
+          <ion-list-header>우리가 판단한 당신의 감정은?</ion-list-header>
+          <button ion-item *ngIf="emotion">행복: {{emotion.happiness}}</button>
+          <button ion-item *ngIf="emotion">슬픔: {{emotion.sorrow}}</button>
+          <button ion-item *ngIf="emotion">화남: {{emotion.anger}}</button>
+          <button ion-item *ngIf="emotion">놀람: {{emotion.surprise}}</button>
         </ion-list>
       </ion-item>
 
       <ion-item>
-        <p>{{context}}</p>>
+        <p>{{context}}</p>
+      </ion-item>
+      <ion-item>
         <p>{{datetime}}</p>
       </ion-item>
 
