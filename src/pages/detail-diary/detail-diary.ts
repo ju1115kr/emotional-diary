@@ -51,19 +51,10 @@ export class DetailDiaryPage {
   }
 
   formatDate(date) {
-    let d = new Date(date);
-    let AMPM = " AM";
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    let year = d.getFullYear();
-    let hour = d.getHours();
-    let minute = d.getMinutes();
+    let d = new Date(date + 60000 * 60 * 9);
+    let localDate = d.toLocaleString('ko-KR');
 
-    if (hour >= 13) { hour -= 12; AMPM = " PM"; }
-
-    if (month.length < 2) month = '0' + month;
-
-    return [year, month, day].join('.') + " " + [hour, minute].join(':') + AMPM;
+    return localDate;
   }
 
 }
