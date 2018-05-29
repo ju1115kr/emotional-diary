@@ -8,5 +8,39 @@
 
 
 <ion-content padding>
-  
+  <form>
+    <ion-list>
+      <ion-item *ngIf="imageFileName">
+        <img [src]="imageFileName" *ngIf="imageFileName" alt="" />
+      </ion-item>
+
+      <ion-item>
+        <ion-range min="0" max="10" pin="true" [(ngModel)]="rangeValue" name="rangeValue">
+          <ion-icon range-left small name="happy"></ion-icon>
+          <ion-icon range-right name="happy"></ion-icon>
+        </ion-range>
+      </ion-item>
+
+      <ion-item>
+        <ion-list no-lines>
+          <ion-list-header>우리가 판단한 당신의 감정은?</ion-list-header>
+          <button ion-item *ngIf="emotion.happiness">행복: {{emotion.happiness}}%</button>
+          <button ion-item *ngIf="emotion.sorrow">슬픔: {{emotion.sorrow}}%</button>
+          <button ion-item *ngIf="emotion.anger">화남: {{emotion.anger}}%</button>
+          <button ion-item *ngIf="emotion.surprise">놀람: {{emotion.surprise}}%</button>
+        </ion-list>
+      </ion-item>
+
+      <ion-item>
+        <p>{{context}}</p>
+      </ion-item>
+      <ion-item>
+        <p>{{datetime}}</p>
+      </ion-item>
+
+      <ion-item>
+        <button ion-button type="submit" (click)="saveDiary()">저장</button>
+      </ion-item>
+    </ion-list>
+  </form>
 </ion-content>

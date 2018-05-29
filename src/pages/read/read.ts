@@ -10,21 +10,19 @@ import { DetailDiaryPage } from '../detail-diary/detail-diary';
 })
 export class ReadPage {
 
-  private diary = [];
+  private diaries = [];
 
   constructor(public navCtrl: NavController,
     private sqlite: SQLite,
-    private socialSharing: SocialSharing) {
-
-  }
+    private socialSharing: SocialSharing) { }
 
   ionViewDidLoad() {
     this.getAllDiary();
   }
 
-  ionViewWillEnter() {
-    this.getAllDiary();
-  }
+  // ionViewWillEnter() {
+  //   this.getAllDiary();
+  // }
 
   getAllDiary() {
     this.sqlite.create({
@@ -33,16 +31,29 @@ export class ReadPage {
     }).then((db: SQLiteObject) => {
       db.executeSql('select * from diary order by id desc', {})
         .then(res => {
-          console.log(res);
-          for (let i = 0; i < res.lenght; i++) {
-            this.diary.push(res[i]);
+          console.log(res.rows.length);
+          console.log(res.rows);
+          
+          this.diaries = [];
+          for (let i = 0; i < res.rows.length; i++) {
+            this.diaries.push({
+              id: res.rows.item(i).id,
+              filelocate: res.rows.item(i).filelocate, manualValue: res.rows.item(i).manualValue,
+              happiness: res.rows.item(i).happiness, sorrow: res.rows.item(i).sorrow,
+              anger: res.rows.item(i).anger, surprise: res.rows.item(i).surprise,
+              context: res.rows.item(i).context, datetime: res.rows.item(i).datetime
+            });
           }
+          console.log(this.diaries);
+          
         }, (err) => { console.log(err); })
     }, (err) => { console.log(err); })
   }
 
   getDetailDiary(id) {
-    this.navCtrl.push(DetailDiaryPage);
+    this.navCtrl.push(DetailDiaryPage, {
+      id: id
+    });
   }
 
 }

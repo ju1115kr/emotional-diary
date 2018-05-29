@@ -5,13 +5,22 @@
 </ion-header>
 
 <ion-content padding>
-  <h1 text-center>K</h1>
+  <h1 text-center>행복도: {{average}}%</h1>
+  <canvas id="HomeCircle" width="29" height="29"></canvas>
+
   <ion-card>
-    <img src="" />
-    <ion-card-content>
-      <p>{{recent}}</p>
+    <img [src]="recent.filelocate" *ngIf="recent.filelocate" />
+
+    <ion-card-content *ngIf="recent.context">
+      <p>{{recent.context}}</p>
     </ion-card-content>
   </ion-card>
 
-  <button ion-button full (click)="shareFacebook()">Facebook에 공유</button>
+  <ion-item>
+    <button ion-button block (click)="getRecentDetail()">상세보기</button>
+  </ion-item>
+  <ion-item>
+    <button ion-button block (click)="shareFacebook()">Facebook에 공유</button>
+  </ion-item>
+
 </ion-content>

@@ -1,20 +1,23 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Contact, 일기 목록
+      일기 목록
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
-    <ion-item>
-      <button ion-button (click) = "getDetailDiary()">상세보기</button>
-    </ion-item>
+    <ion-item-sliding *ngFor="let diary of diaries; let i = index" (click)="getDetailDiary(diary.id)">
+  
+      <ion-item>
+        <ion-avatar item-start>
+          <img [src]="diary.filelocate" />
+        </ion-avatar>
+        <h3>행복: {{diary.happiness}}%</h3>
+        <h3>슬픔: {{diary.sorrow}}%</h3>
+        <P>{{diary.context}}</P>
+      </ion-item>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

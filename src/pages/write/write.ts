@@ -12,9 +12,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 })
 export class WritePage {
 
-  base64Image: any;
-  imageURI: any;
-  imageFileName: any;
+  imageURI: string;
+  imageFileName: string;
   serverIP: string = "http://meonzzi.newslabfellows.com:9009";
   nowDate: string;
   rangeValue: number = 5;
@@ -41,8 +40,6 @@ export class WritePage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      this.base64Image = "data:image/jpeg;base64," + imageData;
-      this.nowDate = Date.now().toString();
       this.uploadFile(imageData);
     }, (err) => {
       console.log(err);
@@ -86,8 +83,8 @@ export class WritePage {
 
   downloadFile() {
     const fileTransfer: FileTransferObject = this.transfer.create();
-    //TODO: imageURL 정확히 알아내기
-    fileTransfer.download(this.serverIP + this.imageURI, normalizeURL(this.file.dataDirectory + this.nowDate + '.jpg'), true)
+
+    fileTransfer.download(this.serverIP + this.imageURI, this.file.dataDirectory + Date.now().toString() + '.jpg', true)
       .then((entry) => {
         this.presentToast("Image download successful");
         this.imageFileName = entry.toURL();
@@ -105,23 +102,33 @@ export class WritePage {
       .get(emotionURL)
       .then((res: any) => {
         console.log(res);
-        this.emotion.happiness = res.happiness;
-        this.emotion.sorrow = res.sorrow;
-        this.emotion.anger = res.anger;
-        this.emotion.surprise = res.surprise;
+        this.emotion.happiness = res.happiness.replace("%", "");
+        this.emotion.sorrow = res.sorrow.replace("%", "");
+        this.emotion.anger = res.anger.replace("%", "");
+        this.emotion.surprise = res.surprise.replace("%", "");
       }, (err) => {
-        console.log(err)
+        console.log(err);
+        if (err.status == "400") {
+          this.emotion.happiness = "0";
+          this.emotion.sorrow = "0";
+          this.emotion.anger = "0";
+          this.emotion.surprise = "0";
+        }
       });
 
   }
 
   saveDiary() {
+    this.nowDate = Date.now().toString();
     this.sqlite.create({
       name: 'emotionDiary.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('insert into diary values(null, ?, ?, ?, ?, ?, ?, ?, ?',
-        [this.imageFileName, this.rangeValue, this.emotion.happiness, this.emotion.sorrow, this.emotion.anger, this.emotion.surprise, this.context, this.nowDate])
+      db.executeSql('insert into diary values(null, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [this.imageFileName, this.rangeValue,
+        this.emotion.happiness, this.emotion.sorrow,
+        this.emotion.anger, this.emotion.surprise,
+        this.context, this.nowDate])
         .then(res => {
           console.log(res);
           this.presentToast("Diary saved successful");
@@ -131,7 +138,7 @@ export class WritePage {
         })
     }, (err) => {
       console.log(err);
-      this.presentToast(err); 2
+      this.presentToast(err);
     })
   }
 
