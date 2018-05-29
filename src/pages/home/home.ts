@@ -12,7 +12,6 @@ export class HomePage {
   recent: {
     id: number;
     context: string;
-    slicedcontext: string;
     filelocate: string;
     manualValue: number;
   }
@@ -21,7 +20,7 @@ export class HomePage {
   constructor(public navCtrl: NavController,
     private sqlite: SQLite,
     private socialSharing: SocialSharing) {
-    this.recent = { id: 0, context: '', slicedcontext: '', filelocate: '', manualValue: 0 };
+    this.recent = { id: 0, context: '', filelocate: '', manualValue: 0 };
   }
 
   ionViewWillEnter() {
@@ -42,15 +41,11 @@ export class HomePage {
 
       db.executeSql('select *, avg(happiness) as happiness, avg(sorrow) as sorrow from diary order by id desc limit 1', {})
         .then(res => {
-          console.log(res.rows.item(0));
-
           this.recent.id = res.rows.item(0).id;
           this.recent.filelocate = res.rows.item(0).filelocate;
           this.recent.context = res.rows.item(0).context;
-          this.recent.slicedcontext = res.rows.item(0).context.substring(0, 16);
           this.recent.manualValue = res.rows.item(0).manualValue;
 
-          console.log(this.recent);
           this.average = parseInt(res.rows.item(0).happiness) / parseInt(res.rows.item(0).sorrow) * 100;
           this.fillCircle(this.average, document.getElementById('HomeCircle'));
         }, (err) => {
