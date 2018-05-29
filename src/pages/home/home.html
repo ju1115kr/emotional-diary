@@ -9,15 +9,15 @@
   <canvas id="HomeCircle" width="29" height="29"></canvas>
 
   <ion-card>
-    <img src="filelocate" />
+    <img [src]="recent.filelocate" *ngIf="recent.filelocate" />
 
-    <ion-card-content>
+    <ion-card-content *ngIf="recent.context">
       <p>{{recent.context}}</p>
     </ion-card-content>
   </ion-card>
 
   <ion-item>
-    <button ion-button block (click)="getDetailDiary(diary.id)">상세보기</button>
+    <button ion-button block (click)="getRecentDetail()">상세보기</button>
   </ion-item>
   <ion-item>
     <button ion-button block (click)="shareFacebook()">Facebook에 공유</button>
