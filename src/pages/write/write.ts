@@ -40,7 +40,6 @@ export class WritePage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      this.nowDate = Date.now().toString();
       this.uploadFile(imageData);
     }, (err) => {
       console.log(err);
@@ -85,7 +84,7 @@ export class WritePage {
   downloadFile() {
     const fileTransfer: FileTransferObject = this.transfer.create();
 
-    fileTransfer.download(this.serverIP + this.imageURI, this.file.dataDirectory + this.nowDate + '.jpg', true)
+    fileTransfer.download(this.serverIP + this.imageURI, this.file.dataDirectory + Date.now().toString() + '.jpg', true)
       .then((entry) => {
         this.presentToast("Image download successful");
         this.imageFileName = entry.toURL();
@@ -120,6 +119,7 @@ export class WritePage {
   }
 
   saveDiary() {
+    this.nowDate = Date.now().toString();
     this.sqlite.create({
       name: 'emotionDiary.db',
       location: 'default'
