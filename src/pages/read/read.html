@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Contact, 일기 목록
+      일기 목록
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -12,10 +12,10 @@
   
       <ion-item>
         <ion-avatar item-start>
-          <img src="diary.filelocate" />
+          <img [src]="diary.filelocate" />
         </ion-avatar>
-        <h3>{{diary.happiness}}</h3>
-        <h3>{{diary.anger}}</h3>
+        <h3>행복: {{diary.happiness}}%</h3>
+        <h3>슬픔: {{diary.sorrow}}%</h3>
         <P>{{diary.context}}</P>
       </ion-item>
     </ion-item-sliding>
